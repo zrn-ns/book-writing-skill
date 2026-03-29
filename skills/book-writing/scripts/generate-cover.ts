@@ -5,14 +5,45 @@
  *
  * 使い方:
  *   cd <プロジェクトルート>
- *   deno run --env-file=.env --allow-net --allow-read --allow-write --allow-run --allow-env <このスクリプトのパス>
+ *   deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスクリプトのパス>
  *
  * カレントディレクトリをプロジェクトルートとして扱い、
  * 画像生成APIでイラストを生成し、ImageMagickでO'Reilly風レイアウトに合成する。
- * API キーは --env-file フラグまたは環境変数で渡す。
+ * .env ファイルはカレントディレクトリから上位に向かって自動探索する。
  */
 
 import { parse } from "jsr:@std/yaml@1";
+import { resolve, dirname } from "jsr:@std/path@1";
+
+/** カレントディレクトリから上位に向かって .env を探し、見つかったら環境変数にロードする */
+async function loadEnvFile(): Promise<void> {
+  let dir = Deno.cwd();
+  while (true) {
+    const envPath = resolve(dir, ".env");
+    try {
+      const text = await Deno.readTextFile(envPath);
+      for (const line of text.split("\n")) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eqIndex = trimmed.indexOf("=");
+        if (eqIndex === -1) continue;
+        const key = trimmed.slice(0, eqIndex).trim();
+        const value = trimmed.slice(eqIndex + 1).trim();
+        if (!Deno.env.get(key)) {
+          Deno.env.set(key, value);
+        }
+      }
+      console.log(`📁 .env を読み込みました: ${envPath}\n`);
+      return;
+    } catch {
+      const parent = dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+  }
+}
+
+await loadEnvFile();
 
 const ROOT = `${Deno.cwd()}/`;
 const METADATA = `${ROOT}book.yaml`;

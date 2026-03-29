@@ -88,7 +88,7 @@ cover:
 deno run --allow-run --allow-read --allow-write <このスキルの scripts/build.ts の絶対パス>
 
 # 表紙生成
-deno run --env-file=.env --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
+deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
 ```
 
 スクリプトは `Deno.cwd()` をプロジェクトルートとして扱い、`src/` 配下の `.md` ファイルを自動検出してファイル名順にソートする。`sourceFiles` 配列の手動管理は不要。

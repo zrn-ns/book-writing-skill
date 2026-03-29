@@ -47,7 +47,7 @@ OPENAI_API_KEY=sk-...
 ```
 `.env.example` があればコピーして使用できる: `cp .env.example .env`
 
-`--env-file` フラグで `.env` のパスを指定することで、スクリプト実行時に自動的に読み込まれる。
+スクリプトはカレントディレクトリから上位に向かって `.env` を自動探索し、見つかれば読み込む。
 
 ### 4. モチーフの決定
 
@@ -79,10 +79,10 @@ OPENAI_API_KEY=sk-...
 ### 5. 表紙の生成
 
 ```bash
-deno run --env-file=.env --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
+deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
 ```
 
-プロジェクトルートで実行すること。環境変数が既に設定済みなら `--env-file` は省略可能。
+プロジェクトルートで実行すること。`.env` はカレントディレクトリから上位に向かって自動探索される。
 
 スクリプトが以下を実行する:
 1. `book.yaml` から設定読み取り
