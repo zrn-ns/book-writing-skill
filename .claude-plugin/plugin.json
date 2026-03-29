@@ -1,0 +1,11 @@
+{
+  "name": "book-writing",
+  "description": "技術書の執筆を支援するスキル。プロジェクト初期化からEPUBビルドまでの全工程をカバー。",
+  "version": "1.0.0",
+  "author": {
+    "name": "zrn_ns"
+  },
+  "repository": "https://github.com/zrn-ns/book-writing-skill",
+  "license": "MIT",
+  "keywords": ["book", "epub", "writing", "技術書", "pandoc"]
+}
