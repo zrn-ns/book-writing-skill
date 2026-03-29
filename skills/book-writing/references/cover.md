@@ -79,10 +79,10 @@ OPENAI_API_KEY=sk-...
 ### 5. 表紙の生成
 
 ```bash
-deno run --env-file=<プロジェクトルート>/.env --allow-net --allow-read --allow-write --allow-run --allow-env scripts/generate-cover.ts
+deno run --env-file=.env --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
 ```
 
-`<プロジェクトルート>` はプロジェクトの `.env` がある場所への相対パス（例: `../../.env`）。環境変数が既に設定済みなら `--env-file` は省略可能。
+プロジェクトルートで実行すること。環境変数が既に設定済みなら `--env-file` は省略可能。
 
 スクリプトが以下を実行する:
 1. `book.yaml` から設定読み取り

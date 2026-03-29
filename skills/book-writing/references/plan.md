@@ -86,16 +86,14 @@
 ## 1.3 開発環境の準備
 ```
 
-### 7. build.ts の更新
-
-`scripts/build.ts` の `sourceFiles` 配列に、生成したファイル名を正しい順序で追加する。
-
-### 8. コミット
+### 7. コミット
 
 ```bash
-git add src/ scripts/build.ts
+git add src/
 git commit -m "✨ 目次構成と章の骨格を追加"
 ```
+
+注: ビルドスクリプトは `src/` 配下の `.md` ファイルを自動検出するため、`sourceFiles` 配列の手動管理は不要。
 
 ### 9. 完了メッセージ
 

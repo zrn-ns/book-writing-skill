@@ -69,12 +69,12 @@ references ファイルのパスは、このスキルファイルからの相対
 - **生成方式**: 外部画像生成API（OpenAI gpt-image-1 / Stability AI）でエッチング風イラストを生成し、ImageMagick で O'Reilly 風レイアウトに合成
 - **ファイル構成**: `assets/cover-illustration.png`（AI生成イラスト）、`assets/cover.jpg`（最終表紙）
 - **モチーフ**: 書籍テーマに応じたオブジェクト（動物モチーフは O'Reilly との混同を避けるため原則不使用）
-- **生成コマンド**: `deno run --env-file=<プロジェクトルート>/.env --allow-net --allow-read --allow-write --allow-run --allow-env scripts/generate-cover.ts`
+- **生成コマンド**: プロジェクトルートで `deno run --env-file=.env --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>` を実行
 - **設定**: `book.yaml` の `cover` セクションで provider, subject, color, custom_prompt を指定
 
 ### ビルドパイプライン
 
 - **ツールチェーン**: Pandoc（EPUB変換）+ Deno（ビルドスクリプト）+ ImageMagick（表紙合成）
-- **ビルドコマンド**: `deno run --allow-run --allow-read --allow-write scripts/build.ts`
+- **ビルドコマンド**: プロジェクトルートで `deno run --allow-run --allow-read --allow-write <このスキルの scripts/build.ts の絶対パス>` を実行
 - **出力先**: `dist/` ディレクトリ
 - **表紙統合**: `assets/cover.jpg` が存在すれば自動的に `--epub-cover-image` でEPUBに組み込む

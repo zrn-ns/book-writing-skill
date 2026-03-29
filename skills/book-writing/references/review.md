@@ -100,14 +100,14 @@ which pandoc && which deno
 - **存在する** → そのままビルドに含める
 - **存在しない** → `book.yaml` の `cover.provider` が `none` 以外なら、表紙生成スクリプトの実行を提案する:
   ```bash
-  deno run --env-file=<プロジェクトルート>/.env --allow-net --allow-read --allow-write --allow-run --allow-env scripts/generate-cover.ts
+  deno run --env-file=.env --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
   ```
 - 表紙が不要な場合はスキップしてビルドに進む
 
 ### 3. ビルド実行
 
 ```bash
-deno run --allow-run --allow-read --allow-write scripts/build.ts
+deno run --allow-run --allow-read --allow-write <このスキルの scripts/build.ts の絶対パス>
 ```
 
 ### 4. 結果報告
