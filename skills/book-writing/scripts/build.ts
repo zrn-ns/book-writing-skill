@@ -47,6 +47,67 @@ async function scanSourceFiles(): Promise<string[]> {
   return files.sort().map((name) => `${SRC_DIR}/${name}`);
 }
 
+const IMAGES_DIR = `${DIST_DIR}/images`;
+const TMP_DIR = `${DIST_DIR}/.tmp`;
+
+/**
+ * Mermaidコードブロックを検出してSVGに変換し、画像参照に置換する。
+ * Mermaidブロックがなければ元のコンテンツをそのまま返す。
+ */
+async function preprocessMermaid(
+  content: string,
+  sourceFileName: string,
+): Promise<string> {
+  const mermaidRegex = /```mermaid\n([\s\S]*?)```/g;
+  const matches = [...content.matchAll(mermaidRegex)];
+
+  if (matches.length === 0) {
+    return content;
+  }
+
+  await Deno.mkdir(IMAGES_DIR, { recursive: true });
+  await Deno.mkdir(TMP_DIR, { recursive: true });
+
+  let result = content;
+  const baseName = sourceFileName.replace(/\.md$/, "");
+
+  for (let i = 0; i < matches.length; i++) {
+    const match = matches[i];
+    const mermaidCode = match[1];
+    const mmdFile = `${TMP_DIR}/${baseName}-${i}.mmd`;
+    const svgFile = `${IMAGES_DIR}/${baseName}-${i}.svg`;
+
+    await Deno.writeTextFile(mmdFile, mermaidCode);
+
+    const cmd = new Deno.Command("npx", {
+      args: [
+        "-y",
+        "@mermaid-js/mermaid-cli",
+        "-i",
+        mmdFile,
+        "-o",
+        svgFile,
+        "-b",
+        "transparent",
+      ],
+      stdout: "piped",
+      stderr: "piped",
+    });
+
+    const { code, stderr } = await cmd.output();
+    if (code !== 0) {
+      const err = new TextDecoder().decode(stderr);
+      console.error(`⚠️  Mermaid変換失敗 (${baseName}-${i}): ${err}`);
+      continue;
+    }
+
+    result = result.replace(match[0], `![図](${svgFile})`);
+    console.log(`   🖼️  ${baseName}-${i}.svg を生成`);
+  }
+
+  return result;
+}
+
 async function fileExists(path: string): Promise<boolean> {
   try {
     await Deno.stat(path);
@@ -174,6 +235,33 @@ async function build() {
 
   console.log(`📄 ${existingFiles.length} ファイルをビルドに含めます\n`);
 
+  // Mermaid前処理: mermaidブロックをSVG画像に変換
+  console.log("🔄 Mermaid図を変換中...\n");
+  await Deno.mkdir(TMP_DIR, { recursive: true });
+  const pandocInputFiles: string[] = [];
+  let mermaidFileCount = 0;
+
+  for (const srcPath of existingFiles) {
+    const fileName = srcPath.split("/").pop()!;
+    const content = await Deno.readTextFile(srcPath);
+
+    if (content.includes("```mermaid")) {
+      const processed = await preprocessMermaid(content, fileName);
+      const tmpPath = `${TMP_DIR}/${fileName}`;
+      await Deno.writeTextFile(tmpPath, processed);
+      pandocInputFiles.push(tmpPath);
+      mermaidFileCount++;
+    } else {
+      pandocInputFiles.push(srcPath);
+    }
+  }
+
+  if (mermaidFileCount > 0) {
+    console.log(`\n   ${mermaidFileCount} ファイルのMermaid図を変換しました\n`);
+  } else {
+    console.log("   Mermaid図はありません\n");
+  }
+
   // Pandocコマンドの構築
   const coverPath = `${ROOT}assets/cover.jpg`;
   const hasCover = await fileExists(coverPath);
@@ -191,7 +279,7 @@ async function build() {
     ...(hasCover ? ["--epub-cover-image", coverPath] : []),
     "-o",
     OUTPUT,
-    ...existingFiles,
+    ...pandocInputFiles,
   ];
 
   if (hasCover) {
@@ -219,6 +307,13 @@ async function build() {
 
   const stderrText = new TextDecoder().decode(stderr);
   if (stderrText) console.warn(stderrText);
+
+  // Mermaid一時ファイルのクリーンアップ
+  try {
+    await Deno.remove(TMP_DIR, { recursive: true });
+  } catch {
+    // クリーンアップ失敗は無視
+  }
 
   // 表紙の互換パッチ
   if (hasCover) {
