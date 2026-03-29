@@ -1,0 +1,23 @@
+---
+title: "Superpowers完全ガイド"
+subtitle: "AIコーディングエージェントの振る舞いを変えるスキルフレームワーク"
+author: "claude /book-writing"
+lang: ja
+date: "2026年3月"
+rights: "All rights reserved"
+description: |
+  Superpowersは、Claude CodeをはじめとするAIコーディングエージェントの
+  開発ワークフローを劇的に改善するスキルフレームワークです。
+  本書はSuperpowersの設計思想から各スキルの詳細な活用法まで、
+  実践的なノウハウを体系的に解説します。
+css: epub.css
+toc: true
+toc-depth: 3
+epub-chapter-level: 1
+number-sections: false
+cover:
+  provider: openai
+  subject: "a detailed mechanical clockwork automaton writing with a quill pen, with visible gears and springs inside its body"
+  color: "#7C3AED"
+  custom_prompt: ""
+...

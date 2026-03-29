@@ -59,6 +59,21 @@ Claude Code で以下を実行:
 
 「本を書いて」のように包括的に指示すると、init から review まで全フェーズを順に実行します。
 
+## サンプル
+
+[`examples/superpowers-skill-guide/`](examples/superpowers-skill-guide/) に、このスキルで生成した技術書のサンプルプロジェクトが含まれています。
+
+- **タイトル**: Superpowers完全ガイド
+- **内容**: Claude Codeのスキルフレームワーク「Superpowers」の設計思想から各スキルの詳細な活用法まで体系的に解説した全12章の技術書
+- **ビルド済みEPUB**: [`examples/superpowers-skill-guide/dist/`](examples/superpowers-skill-guide/dist/)
+
+EPUBを再ビルドするには:
+
+```bash
+cd examples/superpowers-skill-guide
+deno run --allow-run --allow-read --allow-write ../../skills/book-writing/scripts/build.ts
+```
+
 ## ライセンス
 
 MIT
