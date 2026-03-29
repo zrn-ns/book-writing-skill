@@ -90,7 +90,7 @@
 執筆が完了したら、ビルドを実行してEPUBが正常に生成されることを確認する:
 
 ```bash
-deno run --allow-run --allow-read --allow-write scripts/build.ts
+deno run --allow-run --allow-read --allow-write <このスキルの scripts/build.ts の絶対パス>
 ```
 
 ### 6. コミット
