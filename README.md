@@ -21,6 +21,17 @@ brew install pandoc deno imagemagick
 ```
 
 表紙生成を使用する場合は、OpenAI API キーまたは Stability AI API キーが必要です。
+書籍プロジェクトのルートに `.env` ファイルを作成し、使用するプロバイダのキーを設定してください:
+
+```bash
+# OpenAI を使用する場合
+OPENAI_API_KEY=sk-...
+
+# Stability AI を使用する場合
+STABILITY_API_KEY=sk-...
+```
+
+`.env` ファイルは `.gitignore` に含まれているため、リポジトリにコミットされません。
 
 ## インストール
 
