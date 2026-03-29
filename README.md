@@ -2,6 +2,8 @@
 
 Markdown で技術書を執筆し、Pandoc で EPUB に変換するワークフローを支援する Claude Code プラグイン。
 
+<img width="598" height="312" alt="スクリーンショット 2026-03-29 15 37 39" src="https://github.com/user-attachments/assets/018d8e2d-d046-475c-8026-5eb80e808f39" />
+
 ## 機能
 
 プロジェクトの状態を自動判定し、適切なフェーズを実行します:
