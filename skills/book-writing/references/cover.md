@@ -47,7 +47,11 @@ OPENAI_API_KEY=sk-...
 ```
 `.env.example` があればコピーして使用できる: `cp .env.example .env`
 
-スクリプトはカレントディレクトリの `.env` を自動的に読み込む。`.env` がない場合は環境変数に依存する。
+スクリプトは以下の順で `.env` を探索し、最初に見つかったものを読み込む:
+1. カレントディレクトリの `.env`
+2. `~/.config/book-writing/.env`（グローバル設定）
+
+いずれも見つからない場合は環境変数に依存する。初回セットアップ時は `~/.config/book-writing/.env` に API キーを設定するよう案内する。
 
 ### 4. モチーフの決定
 
@@ -82,7 +86,7 @@ OPENAI_API_KEY=sk-...
 deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
 ```
 
-プロジェクトルートで実行すること。カレントディレクトリに `.env` があれば自動的に読み込む。
+プロジェクトルートで実行すること。`.env` はカレントディレクトリ → `~/.config/book-writing/.env` の順で自動探索される。
 
 スクリプトが以下を実行する:
 1. `book.yaml` から設定読み取り

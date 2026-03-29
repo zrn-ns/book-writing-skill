@@ -14,25 +14,43 @@
 
 import { parse } from "jsr:@std/yaml@1";
 
-/** カレントディレクトリの .env があれば環境変数にロードする */
-async function loadEnvFile(): Promise<void> {
-  const envPath = `${Deno.cwd()}/.env`;
+/**
+ * .env ファイルをパースして環境変数にロードする。
+ * 既に設定済みの環境変数は上書きしない。
+ */
+async function parseEnvFile(path: string): Promise<boolean> {
   try {
-    const text = await Deno.readTextFile(envPath);
+    const text = await Deno.readTextFile(path);
     for (const line of text.split("\n")) {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith("#")) continue;
       const eqIndex = trimmed.indexOf("=");
       if (eqIndex === -1) continue;
       const key = trimmed.slice(0, eqIndex).trim();
-      const value = trimmed.slice(eqIndex + 1).trim();
+      const value = trimmed.slice(eqIndex + 1).trim().replace(/^["']|["']$/g, "");
       if (!Deno.env.get(key)) {
         Deno.env.set(key, value);
       }
     }
-    console.log(`📁 .env を読み込みました: ${envPath}\n`);
+    console.log(`📁 .env を読み込みました: ${path}\n`);
+    return true;
   } catch {
-    // .env が存在しない場合は環境変数に依存
+    return false;
+  }
+}
+
+/**
+ * .env を以下の順序で探索し、最初に見つかったものをロードする:
+ * 1. カレントディレクトリの .env
+ * 2. ~/.config/book-writing/.env（グローバル設定）
+ */
+async function loadEnvFile(): Promise<void> {
+  const candidates = [
+    `${Deno.cwd()}/.env`,
+    `${Deno.env.get("HOME")}/.config/book-writing/.env`,
+  ];
+  for (const path of candidates) {
+    if (await parseEnvFile(path)) return;
   }
 }
 

@@ -69,7 +69,7 @@ references ファイルのパスは、このスキルファイルからの相対
 - **生成方式**: 外部画像生成API（OpenAI gpt-image-1 / Stability AI）でエッチング風イラストを生成し、ImageMagick で O'Reilly 風レイアウトに合成
 - **ファイル構成**: `assets/cover-illustration.png`（AI生成イラスト）、`assets/cover.jpg`（最終表紙）
 - **モチーフ**: 書籍テーマに応じたオブジェクト（動物モチーフは O'Reilly との混同を避けるため原則不使用）
-- **生成コマンド**: プロジェクトルートで `deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>` を実行（カレントディレクトリの.envを自動読み込み）
+- **生成コマンド**: プロジェクトルートで `deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>` を実行（.envはカレントディレクトリ→~/.config/book-writing/.envの順で自動探索）
 - **設定**: `book.yaml` の `cover` セクションで provider, subject, color, custom_prompt を指定
 
 ### ビルドパイプライン
