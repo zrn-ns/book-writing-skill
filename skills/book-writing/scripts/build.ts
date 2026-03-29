@@ -40,7 +40,7 @@ async function readTitle(): Promise<string> {
 async function scanSourceFiles(): Promise<string[]> {
   const files: string[] = [];
   for await (const entry of Deno.readDir(SRC_DIR)) {
-    if (entry.isFile && entry.name.endsWith(".md")) {
+    if (entry.isFile && entry.name.endsWith(".md") && !entry.name.startsWith(".")) {
       files.push(entry.name);
     }
   }
