@@ -68,6 +68,17 @@ async function preprocessMermaid(
   await Deno.mkdir(IMAGES_DIR, { recursive: true });
   await Deno.mkdir(TMP_DIR, { recursive: true });
 
+  // EPUB リーダーは foreignObject を非サポートのため、SVG <text> 要素で描画させる
+  const mermaidConfigFile = `${TMP_DIR}/mermaid-config.json`;
+  await Deno.writeTextFile(
+    mermaidConfigFile,
+    JSON.stringify({
+      htmlLabels: false,
+      flowchart: { htmlLabels: false },
+      sequence: { useHTMLLabels: false },
+    }),
+  );
+
   let result = content;
   const baseName = sourceFileName.replace(/\.md$/, "");
 
@@ -83,6 +94,8 @@ async function preprocessMermaid(
       args: [
         "-y",
         "@mermaid-js/mermaid-cli",
+        "-c",
+        mermaidConfigFile,
         "-i",
         mmdFile,
         "-o",
