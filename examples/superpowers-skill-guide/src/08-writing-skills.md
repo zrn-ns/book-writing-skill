@@ -133,3 +133,18 @@ description: Use when executing implementation plans with independent
 ---
 
 **要約**: writing-skillsはスキル作成にTDDサイクルを適用する（ベースライン測定→最小限のスキル作成→抜け穴の封鎖）。dispatching-parallel-agentsは独立タスクの並行処理を実現する。スキルファイルはYAMLフロントマター（name, description）とMarkdown本文で構成し、descriptionには発動条件のみ記述する。
+
+---
+
+# 本書のまとめ
+
+- **Superpowersとは**: Claude Codeに開発規律を注入するスキルフレームワーク。Skill toolで呼び出され、プロンプトとしてコンテキストに展開される（第1章）
+- **コアワークフロー**: brainstorming→worktree→writing-plans→executing→TDD→code-review→finishingの7段階（第1章）
+- **brainstorming**: 実装前に設計ドキュメントを作成。9ステップのチェックリスト。ユーザー承認まで実装禁止（第3章）
+- **writing-plans / executing-plans**: タスクをステップに分解した実装プラン。subagent-driven-developmentではタスクごとにサブエージェント＋2段階レビュー（第4章）
+- **test-driven-development**: RED-GREEN-REFACTORを強制。合理化パターンを列挙して違反を検出（第5章）
+- **systematic-debugging**: 根本原因の調査→パターン分析→仮説検証→実装の4フェーズ。修正前に原因を特定する鉄則（第6章）
+- **verification-before-completion**: 完了宣言前にビルド・テスト・lintの検証を実行し、出力を確認してから成功を主張する（第6章）
+- **コードレビュー**: requesting-code-reviewでサブエージェントをディスパッチ。receiving-code-reviewでは盲目的に従わず技術的に検証する（第7章）
+- **Git操作**: using-git-worktreesで隔離ワークツリーを作成。finishing-a-development-branchでマージ/PR/保持/破棄の4択を提示（第7章）
+- **スキル自作**: writing-skillsでTDDサイクルを適用。descriptionには発動条件のみ記述し、ワークフロー要約を入れない（第8章）
