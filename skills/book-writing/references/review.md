@@ -96,13 +96,15 @@ which pandoc && which deno
 
 ### 2. 表紙の確認
 
-`assets/cover.png` の存在を確認する:
+`assets/cover.jpg` の存在を確認する:
 - **存在する** → そのままビルドに含める
-- **存在しない** → `book.yaml` の `cover.provider` が `none` 以外なら、表紙生成スクリプトの実行を提案する:
+- **存在しない** → `book.yaml` の `cover.provider` が `none` 以外なら、表紙生成スクリプトを**自動実行する**:
   ```bash
   deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>
   ```
-- 表紙が不要な場合はスキップしてビルドに進む
+  `cover.subject` が空の場合は、`book.yaml` の `title` と `description` からモチーフを自動決定してから実行する（cover.md のモチーフ提案ルールに従う）。
+  APIキーが見つからず生成に失敗した場合は、APIキーの設定方法（`~/.config/book-writing/.env`）を案内し、表紙なしでビルドを続行する。
+- `cover.provider` が `none` の場合はスキップしてビルドに進む
 
 ### 3. ビルド実行
 
