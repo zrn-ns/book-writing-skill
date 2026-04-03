@@ -73,6 +73,14 @@ references ファイルのパスは、このスキルファイルからの相対
 - **生成コマンド**: プロジェクトルートで `deno run --allow-net --allow-read --allow-write --allow-run --allow-env <このスキルの scripts/generate-cover.ts の絶対パス>` を実行（.envはカレントディレクトリ→~/.config/book-writing/.envの順で自動探索）
 - **設定**: `book.yaml` の `cover` セクションで provider, subject, color, custom_prompt を指定
 
+### 版管理
+
+- **設定**: `book.yaml` の `editions` 配列で版の名前と発行日を管理
+- **形式**: `editions: [{name: "初版", date: "YYYY-MM-DD"}, ...]`（古い版から新しい版の順）
+- **奥付**: ビルド時に `editions` から奥付ページを自動生成し、全版の履歴を表示する
+- **メタデータ**: EPUBの OPF に最新版の `schema:bookEdition` と `dc:date` を埋め込む
+- **初期値**: init フェーズで自動的に `[{name: "初版", date: "<今日の日付>"}]` が設定される
+
 ### ビルドパイプライン
 
 - **ツールチェーン**: Pandoc（EPUB変換）+ Deno（ビルドスクリプト）+ ImageMagick（表紙合成）

@@ -136,3 +136,27 @@ deno run --allow-run --allow-read --allow-write <このスキルの scripts/buil
 git add -A
 git commit -m "👍 品質改善: レビュー指摘事項を修正"
 ```
+
+## 改版時の手順
+
+既刊の本を改版する場合は、以下の手順で版情報を更新する:
+
+### 1. book.yaml の editions を更新
+
+`editions` 配列の末尾に新しいエントリを追加する:
+
+```yaml
+editions:
+  - name: "初版"
+    date: "2025-12-01"
+  - name: "第2版"          # ← 追加
+    date: "2026-04-04"     # ← 追加
+```
+
+### 2. 内容の更新
+
+必要な章の追加・修正を行う。
+
+### 3. レビュー＆ビルド
+
+通常のレビュー・ビルドフローを実行する。奥付ページはビルド時に `editions` から自動生成される。

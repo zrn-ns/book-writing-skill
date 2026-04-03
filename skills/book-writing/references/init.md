@@ -71,6 +71,9 @@ toc: true
 toc-depth: 3
 epub-chapter-level: 1
 number-sections: false
+editions:
+  - name: "初版"
+    date: "<YYYY-MM-DD>"       # 今日の日付を設定
 cover:
   provider: openai             # openai | stability | none
   subject: ""                  # イラストのモチーフ（空なら概要から提案）
